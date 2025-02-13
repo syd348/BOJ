@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct classes{
+    int start, end;
+}classes;
+
+int compare(const void *first, const void *second) {
+    classes *fir = (classes*)first;
+    classes *sec = (classes*)second;
+
+    if (fir->end != sec->end)
+        return fir->end - sec->end;  // 종료 시간을 기준으로 오름차순 정렬
+    return fir->start - sec->start;  // 종료 시간이 같다면 시작 시간을 기준으로 오름차순 정렬
+}
+
+int main(){
+    int n, start, end, end_max=-99, cnt=0,pre_end;
+    classes *list;
+
+    scanf("%d", &n);
+    
+    list=malloc(sizeof(classes)*n);
+
+    for(int i=0;i<n;i++){
+        scanf("%d %d", &list[i].start, &list[i].end);
+        if(end_max<list[i].end)
+            end_max=list[i].end;
+    }
+    qsort(list, n, sizeof(classes), compare);
+        
+    pre_end=list[0].start-1;//첫번째는 무조건 가능하도록 pre_end 설정
+
+    for(int i=0;i<n;i++){
+        start=list[i].start;
+        end=list[i].end;
+        if(pre_end<=start||start==end){//이전에 추가된 회의 종료 시간과 현재 회의 시작 시간이 같거나 크다면 추가, 현재 회의 시간이 시작==끝이면 무조건 추가
+                cnt++;
+                pre_end=end;
+        }
+        
+    }
+    printf("%d",cnt);
+    free(list);
+}
