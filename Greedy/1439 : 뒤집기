@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <string.h>
+
+
+int main(){
+    int charact;
+    int cnt_zero=0, cnt_one=0;
+    char s[1000000];
+
+    scanf("%s", s); 
+    charact=s[0];
+    s[0]=='0'?cnt_one++:cnt_zero++;
+
+    for(int i=1;i<strlen(s);i++){
+        if(charact!=s[i]){//이전 문자와 다르다면
+            s[i]=='0'?cnt_one++:cnt_zero++;//뒤집기 해야함, 
+        }
+        charact=s[i];
+    }
+    printf("%d", cnt_one<cnt_zero?cnt_one:cnt_zero);
+}
